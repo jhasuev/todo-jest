@@ -42,6 +42,7 @@ const fillTodosDefaultData = () => {
 }
 
 
+fillTodosDefaultData()
 beforeEach(() => {
   fillTodosDefaultData()
 })
@@ -71,21 +72,23 @@ describe('Todo getBaseTemplate() method', () => {
     expect(todo.getBaseTemplate()).toMatch(/^\s*<.*?>\s*$/img)
   })
 
-  test('should contains needed tags tag', () => {
-    expect(todo.getBaseTemplate()).toMatch(/<form /)
-    expect(todo.getBaseTemplate()).toMatch(/<\/form>/)
-    expect(todo.getBaseTemplate()).toMatch(/<input.*/)
-    expect(todo.getBaseTemplate()).toMatch(/<button.*/)
+  const containingWordsInBaseTemplate = [
+    '<form ',
+    '</form>',
+    '<input ',
+    '<button ',
+    'js-form',
+    'js-field',
+    'js-list-card',
+    'js-list',
+  ]
+
+  containingWordsInBaseTemplate.forEach(word => {
+    test(`should contains word: [${word}]`, () => {
+      expect(todo.getBaseTemplate()).toContain(word)
+    })
   })
 
-  test('should contains needed classes', () => {
-    expect(todo.getBaseTemplate()).toMatch(/js-form/)
-    expect(todo.getBaseTemplate()).toMatch(/js-field/)
-    
-    expect(todo.getBaseTemplate()).toMatch(/js-list-card/)
-    expect(todo.getBaseTemplate()).toMatch(/js-list/)
-  })
-  
   test('should be currect HTML', () => {
     let domElement = document.createElement('div')
     domElement.innerHTML = todo.getBaseTemplate()
@@ -259,11 +262,11 @@ describe('Todo getTodosTemplate(todos) method: ', () => {
     expect(typeof (todo.getTodosTemplate(todos)) === 'string').toBe(true)
   })
   
-  test('should has some special words', () => {
-    const result = todo.getTodosTemplate(todos)
-    expect(result).toContain(todos[0].title)
-    expect(result).toContain(todos[1].title)
-    expect(result).toContain(todos[2].title)
+
+  todos.forEach(todoItem => {
+    test(`should has some special words '${todoItem.title}'`, () => {
+      expect(todo.getTodosTemplate(todos)).toContain(todoItem.title)
+    })
   })
 })
 
