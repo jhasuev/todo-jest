@@ -8,6 +8,7 @@ export default class Todo {
     this.selector = selector
   }
 
+  // can't be tested
   init() {
     if (this.selector) {
       this.appHTML = document.querySelector(this.selector)
@@ -20,6 +21,7 @@ export default class Todo {
     }
   }
 
+  // tested
   getBaseTemplate() {
     return `
       ${FormHTMLTemplate}
@@ -27,10 +29,12 @@ export default class Todo {
     `
   }
   
+  // can't be tested
   addBaseTemplateToDOM(template) {
     this.appHTML.innerHTML = template
   }
 
+  // can't be tested
   addEvents() {
     const onEvent = (event) => {
       const { target, type } = event
@@ -56,28 +60,29 @@ export default class Todo {
     this.appHTML.addEventListener('change', onEvent)
   }
 
+  // can't be tested
   initTags() {
     this.inputTitle = document.querySelector('.js-field')
     this.todosListCard = document.querySelector('.js-list-card')
     this.todosList = document.querySelector('.js-list')
   }
 
-  isAddBtn(target) {
-    return target.classList.contains('js-add-btn')
-  }
-
+  // tested
   isAddForm(target) {
     return target.classList.contains('js-form')
   }
 
+  // tested
   isRemoveForm(target) {
     return target.classList.contains('js-remove-btn')
   }
 
+  // tested
   isDoneCheckbox(target) {
     return target.classList.contains('js-checkbox')
   }
 
+  // can't be tested
   onAdd() {
     const title = this.getTitleFromField().trim()
     if (title) {
@@ -87,12 +92,14 @@ export default class Todo {
     }
   }
 
+  // can't be tested
   onRemove(btn) {
     const id = Number(btn.closest('.js-todo-item').dataset.id)
     this.remove(this.todos, id)
     this.updateTodos()
   }
 
+  // can't be tested
   onDone(checkbox) {
     const id = Number(checkbox.closest('.js-todo-item').dataset.id)
     const done = checkbox.checked
@@ -100,6 +107,7 @@ export default class Todo {
     this.updateTodos()
   }
   
+  // tested
   add(todos, title) {
     const todoObj = this.createTodoItem(todos, title)
     todos.unshift(todoObj)
@@ -107,12 +115,12 @@ export default class Todo {
     return todos
   }
 
-  // test it
+  // tested
   remove(todos, id) {
     return this.todos = todos.filter(todo => todo.id != id)
   }
 
-  // test it
+  // tested
   done(todos, id, done) {
     const todo = this.getTodoById(todos, id)
     todo.done = done
@@ -120,15 +128,17 @@ export default class Todo {
     return todo
   }
 
-  // test it
+  // tested
   getTodoById(todos, id) {
     return todos.find(todo => todo.id === id)
   }
 
+  // can't be tested
   clearForm() {
     this.inputTitle.value = ''
   }
 
+  // tested
   createTodoItem(todos, title) {
     return {
       title,
@@ -137,26 +147,30 @@ export default class Todo {
     }
   }
 
+  // can't be tested
   updateTodos() {
     this.setAliveTodos(this.todos.length)
     this.todosList.innerHTML = this.getTodosTemplate(this.todos)
   }
 
-  // test it
+  // tested
   getTodosTemplate(todos) {
     return todos.reduce((html, todo) => {
       return html + compile(ListItemHTMLTemplate)({ ...todo, done: todo.done ? 'checked' : '' })
     }, '')
   }
 
+  // can't be tested
   setAliveTodos(state) {
     return this.todosListCard.style.display = state ? '' : 'none'
   }
 
+  // tested
   getNextId(todos) {
     return todos.reduce((acc, todo) => todo.id > acc ? todo.id : acc, 0) + 1
   }
 
+  // can't be tested
   getTitleFromField() {
     return this.inputTitle.value
   }

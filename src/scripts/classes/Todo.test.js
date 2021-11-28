@@ -81,7 +81,6 @@ describe('Todo getBaseTemplate() method', () => {
   test('should contains needed classes', () => {
     expect(todo.getBaseTemplate()).toMatch(/js-form/)
     expect(todo.getBaseTemplate()).toMatch(/js-field/)
-    expect(todo.getBaseTemplate()).toMatch(/js-add-btn/)
     
     expect(todo.getBaseTemplate()).toMatch(/js-list-card/)
     expect(todo.getBaseTemplate()).toMatch(/js-list/)
@@ -208,6 +207,8 @@ describe('Todo done(todos, id, done) method: ', () => {
     expect(result.id).toBeDefined()
     expect(result.title).toBeDefined()
     expect(result.done).toBeDefined()
+
+    expect(Object.keys(result)).toEqual(Object.keys(todos[0]))
   })
   
   test('should change done field', () => {
@@ -263,5 +264,56 @@ describe('Todo getTodosTemplate(todos) method: ', () => {
     expect(result).toContain(todos[0].title)
     expect(result).toContain(todos[1].title)
     expect(result).toContain(todos[2].title)
+  })
+})
+
+describe('Todo isAddForm(target: HTMLObject) method: ', () => {
+  test('should be defined', () => {
+    expect(todo.isAddForm).toBeDefined()
+  })
+  
+  test('should be a function', () => {
+    expect(typeof todo.isAddForm === 'function').toBe(true)
+  })
+  
+  test('should return true/false', () => {
+    const divHtmlObject = document.createElement("div")
+    expect(todo.isAddForm(divHtmlObject)).toBe(false)
+    divHtmlObject.classList.add('js-form')
+    expect(todo.isAddForm(divHtmlObject)).toBe(true)
+  })
+})
+
+describe('Todo isRemoveForm(target: HTMLObject) method: ', () => {
+  test('should be defined', () => {
+    expect(todo.isRemoveForm).toBeDefined()
+  })
+  
+  test('should be a function', () => {
+    expect(typeof todo.isRemoveForm === 'function').toBe(true)
+  })
+  
+  test('should return true/false', () => {
+    const divHtmlObject = document.createElement("div")
+    expect(todo.isRemoveForm(divHtmlObject)).toBe(false)
+    divHtmlObject.classList.add('js-remove-btn')
+    expect(todo.isRemoveForm(divHtmlObject)).toBe(true)
+  })
+})
+
+describe('Todo isDoneCheckbox(target: HTMLObject) method: ', () => {
+  test('should be defined', () => {
+    expect(todo.isDoneCheckbox).toBeDefined()
+  })
+  
+  test('should be a function', () => {
+    expect(typeof todo.isDoneCheckbox === 'function').toBe(true)
+  })
+  
+  test('should return true/false', () => {
+    const divHtmlObject = document.createElement("div")
+    expect(todo.isDoneCheckbox(divHtmlObject)).toBe(false)
+    divHtmlObject.classList.add('js-checkbox')
+    expect(todo.isDoneCheckbox(divHtmlObject)).toBe(true)
   })
 })
