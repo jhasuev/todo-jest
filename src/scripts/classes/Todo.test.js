@@ -242,6 +242,10 @@ describe('Todo getTodoById(todos, id) method: ', () => {
     expect(typeof result.id === 'number').toBe(true)
     expect(typeof result.title === 'string').toBe(true)
     expect(typeof result.done === 'boolean').toBe(true)
+
+    expect(result).toHaveProperty('id')
+    expect(result).toHaveProperty('title')
+    expect(result).toHaveProperty('done')
   })
   
   test('should be equal to expectation', () => {
